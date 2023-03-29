@@ -21,12 +21,15 @@ object controlStructures {
    *
     */
 
+  val cond: Boolean = true
 
 
 
   //1. Напишите выражение, которое в зависимости от значения выражения cond
   // будет возвращать "yes" или "no",
   // присвойте его в переменную х1
+
+  val x1: String = if(cond) "yes" else "no"
 
 
 
@@ -36,13 +39,14 @@ object controlStructures {
   // будет печатать "yes" или "no" в консоль,
   // присвойте его в переменную х2
 
-
+  val x2: Unit = if(cond) println("yes") else println("no")
 
 
   //3. Напишите выражение, которое если значение переменной cond будет true напечатает в консоль "yes", а если
   // false то вернет строку "no",
   // присвойте его в переменную х3
 
+  val x3: Any = if(cond) println("yes") else "no"
 
 
 
@@ -58,5 +62,18 @@ object controlStructures {
    * имеет своеобразный синтаксис с обратной стрелочкой
    */
 
+  var i = 0
+  var cond2 = true
+   val x4: Unit = do {
+     i += 1
+     println(i)
+     if(i == 10) cond2 = false
+   } while (cond2)
+
+  val arr: Array[Int] = ???
+
+  val x5: Unit = for(x <- 1 to 10){
+    println(x)
+  }
 
 }
