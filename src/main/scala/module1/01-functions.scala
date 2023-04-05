@@ -40,15 +40,12 @@ object functions {
     case x if x._2 != 0 => x._1 / x._2
   }
 
-  divide.isDefinedAt()
-  divide.apply()
 
   val divide2: PartialFunction[(Int, Int), Int] = new PartialFunction[(Int, Int), Int] {
     override def isDefinedAt(x: (Int, Int)): Boolean = x._2 != 0
 
-    override def apply(v1: (Int, Int)): Int = x._1 / x._2
+    override def apply(v1: (Int, Int)): Int = v1._1 / v1._2
   }
-  divide2.isDefinedAt()
 
   val r5: List[Int] = List((1, 2), (2, 0)).collect(divide)
 
