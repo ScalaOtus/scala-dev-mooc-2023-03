@@ -182,22 +182,5 @@ object type_system {
    * Value classes и Universal traits
    */
 
-  trait SuperId{
-    def foo: Int
-  }
-
-  case class Id2(str: String) extends AnyVal with SuperId{
-    override def foo: Int = ???
-  }
-  case class Id3(str: String) extends AnyVal with SuperId{
-    override def foo: Int = ???
-  }
-
-
-  type Id = String
-
-  def foo(id: Id2) = ???
-
-  foo("")
 
 }
