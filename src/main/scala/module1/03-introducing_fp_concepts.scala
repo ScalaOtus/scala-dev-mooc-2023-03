@@ -190,7 +190,7 @@ object hof{
  */
 
 
- object opt {
+ object opt extends App {
 
   /**
    *
@@ -219,19 +219,20 @@ object hof{
   }
 
   object Option{
-
     case class Some[T](v: T) extends Option[T]
     case object None extends Option[Nothing]
   }
-
-
-
-
 
   /**
    *
    * Реализовать метод printIfAny, который будет печатать значение, если оно есть
    */
+
+  def printIfAny[T](v: T): Unit = v match {
+    case Option.Some(v) => println(v.toString)
+    case _ =>
+  }
+  printIfAny(Option.Some("Hello, FP"))
 
 
   /**
