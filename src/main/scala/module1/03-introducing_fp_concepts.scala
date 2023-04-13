@@ -1,9 +1,9 @@
 package module1
 
+import module1.opt.Option.zip
+
 import java.util.UUID
 import scala.annotation.tailrec
-import java.time.Instant
-
 import scala.language.postfixOps
 
 
@@ -13,7 +13,7 @@ import scala.language.postfixOps
  */
 
 
- object referential_transparency{
+ object referential_transparency {
 
   case class Abiturient(id: String, email: String, fio: String)
 
@@ -21,26 +21,28 @@ import scala.language.postfixOps
 
   sealed trait Notification
 
-  object Notification{
+  object Notification {
     case class Email(email: String, text: Html) extends Notification
+
     case class Sms(telephone: String, msg: String) extends Notification
   }
 
 
   case class AbiturientDTO(email: String, fio: String, password: String)
 
-  trait NotificationService{
+  trait NotificationService {
     def sendNotification(notification: Notification): Unit
+
     def createNotification(abiturient: Abiturient): Notification
   }
 
 
-  trait AbiturientService{
+  trait AbiturientService {
 
     def registerAbiturient(abiturientDTO: AbiturientDTO): Abiturient
   }
 
-  class AbiturientServiceImpl(val notificationService: NotificationService) extends AbiturientService{
+  class AbiturientServiceImpl(val notificationService: NotificationService) extends AbiturientService {
     override def registerAbiturient(abiturientDTO: AbiturientDTO): Abiturient = {
       val notification = Notification.Email("", "")
       val abiturient = Abiturient(UUID.randomUUID().toString, abiturientDTO.email, abiturientDTO.fio)
@@ -49,9 +51,10 @@ import scala.language.postfixOps
       abiturient
     }
   }
-
-
 }
+
+
+
 
 
  // recursion
@@ -201,9 +204,8 @@ object hof{
   // Covariant + отношения переносятся на контейнер
   // Contravariant - отношения переносятся на контейнер наоборот
   // Invariant - нет отношений
-  type Dog
 
-  sealed trait Option[+T]{
+  sealed trait Option[+T] {
     def isEmpty: Boolean = this match {
       case Option.Some(v) => false
       case Option.None => true
@@ -216,11 +218,29 @@ object hof{
       case Option.Some(v) => f(v)
       case Option.None => Option.None
     }
+
+    def printIfAny(): Unit = this match {
+      case Option.Some(v) => println(v.toString)
+      case _ =>
+    }
+
+    def filter(cond: T => Boolean): opt.Option[T] = this match {
+      case Option.Some(v) => if (cond(v)) Option.Some(v) else Option.None
+      case _ => Option.None
+    }
+
+
   }
+
 
   object Option{
     case class Some[T](v: T) extends Option[T]
     case object None extends Option[Nothing]
+
+    def zip[T, E](a: T, b: E): opt.Option[(Any, Any)] = (a, b) match {
+      case (Option.Some(a), Option.Some(b)) => Option.Some((a, b))
+      case _ => Option.None
+    }
   }
 
   /**
@@ -228,24 +248,30 @@ object hof{
    * Реализовать метод printIfAny, который будет печатать значение, если оно есть
    */
 
-  def printIfAny[T](v: T): Unit = v match {
-    case Option.Some(v) => println(v.toString)
-    case _ =>
-  }
-  printIfAny(Option.Some("Hello, FP"))
+  val someValue = Option.Some("Hello,Scala")
+  val noneValue = Option.None
 
+  someValue.printIfAny()
+  noneValue.printIfAny()
 
   /**
    *
    * Реализовать метод zip, который будет создавать Option от пары значений из 2-х Option
    */
 
+  println(zip(Option.Some("Hello"), Option.Some(" FP"))) // Some((Hello, FP))
+  println(zip("Hello,", Some(" FP")))
+  println(zip(Option.Some("Hello,"), " FP"))
+  println(zip("Hello,", " FP"))
+  println(zip(Option.None, Option.None))
 
   /**
    *
    * Реализовать метод filter, который будет возвращать не пустой Option
    * в случае если исходный не пуст и предикат от значения = true
    */
+  val cond: String => Boolean = _.length > 5
+  println(someValue.filter(cond)) // Some(Hello,Scala)
 
  }
 
