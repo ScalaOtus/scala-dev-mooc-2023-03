@@ -237,7 +237,7 @@ object hof{
     case class Some[T](v: T) extends Option[T]
     case object None extends Option[Nothing]
 
-    def zip[T, E](a: T, b: E): opt.Option[(Any, Any)] = (a, b) match {
+    def zip[T, E](a: opt.Option[T], b: opt.Option[E]): opt.Option[(T, E)] = (a, b) match {
       case (Option.Some(a), Option.Some(b)) => Option.Some((a, b))
       case _ => Option.None
     }
@@ -260,10 +260,6 @@ object hof{
    */
 
   println(zip(Option.Some("Hello"), Option.Some(" FP"))) // Some((Hello, FP))
-  println(zip("Hello,", Some(" FP")))
-  println(zip(Option.Some("Hello,"), " FP"))
-  println(zip("Hello,", " FP"))
-  println(zip(Option.None, Option.None))
 
   /**
    *
@@ -275,7 +271,7 @@ object hof{
 
  }
 
- object list {
+ object list extends  App {
    /**
     *
     * Реализовать односвязанный иммутабельный список List
