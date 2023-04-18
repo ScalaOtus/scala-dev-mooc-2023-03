@@ -301,12 +301,12 @@ object hof{
       *
       * Реализовать метод reverse который позволит заменить порядок элементов в списке на противоположный
       */
-     def reverse: List[T] = this match {
-       case Nil => Nil
-       case Cons(head, Nil) => Cons(head, Nil)
-       case Cons(head1, Cons(head2, Nil)) => Cons(head2, Cons(head1, Nil))
-       case Cons(head1, Cons(head2, Cons(head3, Nil))) => Cons(head3, Cons(head2, Cons(head1, Nil)))
-//       case Cons(head, tail) => Cons(head, List.apply(tail:_*))//  [1, [2, 3, 4, 5]] =>
+     def reverse: List[T] = {
+       def reverseHelper(remainigList: List[T], acc: List[T]): List[T] = remainigList match {
+         case Nil => acc
+         case Cons(head, tail) => reverseHelper(tail, Cons(head, acc))
+       }
+       reverseHelper(this, Nil)
      }
 
      /**
@@ -329,14 +329,6 @@ object hof{
        case Cons(head, Nil)  => if (f(head)) Cons(head, Nil) else Nil
        case Cons(head, tail) => if (f(head)) Cons(head, tail.filter(f)) else Cons(tail.asInstanceOf[Cons[T]].head, tail.asInstanceOf[Cons[T]].tail)
      }
-
-     /**
-      *
-      * Написать функцию incList котрая будет принимать список Int и возвращать список,
-      * где каждый элемент будет увеличен на 1
-      */
-
-
    }
 
 
@@ -351,6 +343,20 @@ object hof{
       def apply[A](v: A*): List[A] =
         if(v.isEmpty) Nil
         else Cons(v.head, apply(v.tail:_*))
+
+      /**
+       *
+       * Написать функцию incList котрая будет принимать список Int и возвращать список,
+       * где каждый элемент будет увеличен на 1
+       */
+      def incList(list: List[Int]): List[Int] = list.map(_ + 1)
+
+      /**
+       *
+       * Написать функцию shoutString котрая будет принимать список String и возвращать список,
+       * где к каждому элементу будет добавлен префикс в виде '!'
+       */
+      def shoutString(list: List[String]): List[String] = list.map("!" + _)
     }
 
    val l1 = 1 :: Nil
@@ -358,25 +364,30 @@ object hof{
    val l3 = 1 :: List(2, 3, 4, 5)
 
 
+   println("--mkString--")
    println(l1.mkString(", "))
    println(l2.mkString(", "))
    println(l3.mkString(", "))
 
-   println(List(2, 3).reverse.mkString(", "))
-   println(List(1, 2, 3).reverse.mkString(", "))
+   println("--Reverse--")
+   println(Nil.reverse.mkString(", "))
+   println(List(1).reverse.mkString(", "))
+   println(List(1, 2, 3, 4, 5).reverse.mkString(", "))
 
+   println("--Map--")
    println(List(1, 2, 3).map(_ + 1).mkString(", "))
 
+   println("--Filter--")
    println(List(2).filter(_ > 1).mkString(", "))
    println(List(1, 2, 3).filter(_ > 1).mkString(", "))
 
+   println("--incList--")
+   println(List.incList(List(1, 2, 3)).mkString(", "))
+
+   println("--shoutString--")
+   println(List.shoutString(List("1", "2", "3")).mkString(", "))
 
 
 
-    /**
-      *
-      * Написать функцию shoutString котрая будет принимать список String и возвращать список,
-      * где к каждому элементу будет добавлен префикс в виде '!'
-      */
 
  }
