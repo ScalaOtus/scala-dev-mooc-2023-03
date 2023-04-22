@@ -1,6 +1,6 @@
 package collections
 
-object task_collections {
+object task_collections extends App {
 
   def isASCIIString(str: String): Boolean = str.matches("[A-Za-z]+")
 
@@ -10,14 +10,25 @@ object task_collections {
    * если isASCIIString is FALSE тогда пусть каждый элемент строки будет в нижнем регистре
    * Пример:
    * capitalizeIgnoringASCII(List("Lorem", "ipsum" ,"dolor", "sit", "amet")) -> List("Lorem", "IPSUM", "DOLOR", "SIT", "AMET")
-   * capitalizeIgnoringASCII(List("Оказывается", "," "ЗвУк", "КЛАВИШЬ", "печатной", "Машинки", "не", "СТАЛ", "ограничивающим", "фактором")) ->
+   * capitalizeIgnoringASCII(List("Оказывается", ",", "ЗвУк", "КЛАВИШЬ", "печатной", "Машинки", "не", "СТАЛ", "ограничивающим", "фактором")) ->
    * List("Оказывается", "," "звук", "КЛАВИШЬ", "печатной", "машинки", "не", "стал", "ограничивающим", "фактором")
    * HINT: Тут удобно использовать collect и zipWithIndex
    *
-   * **/
-  def capitalizeIgnoringASCII(text: List[String]): List[String] = {
-    List.empty
-  }
+   * * */
+  def capitalizeIgnoringASCII(text: List[String]): List[String] = text
+    .zipWithIndex
+    .map {
+      case (word, index) if index == 0 => word
+      case (word, _) if isASCIIString(word) => word.toUpperCase
+      case (word, _) => word.toLowerCase
+    }
+
+  assert(capitalizeIgnoringASCII(List("Lorem", "ipsum", "dolor", "sit", "amet")) ==
+    List("Lorem", "IPSUM", "DOLOR", "SIT", "AMET"))
+  assert(capitalizeIgnoringASCII(List("Оказывается", ",", "ЗвУк", "КЛАВИШЬ", "печатной", "Машинки", "не", "СТАЛ", "ограничивающим", "фактором")) ==
+    List("Оказывается", ",", "звук", "клавишь", "печатной", "машинки", "не", "стал", "ограничивающим", "фактором"))
+
+
 
   /**
    *
