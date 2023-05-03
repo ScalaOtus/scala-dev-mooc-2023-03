@@ -1,5 +1,6 @@
 import module1.{executor, future, threads, try_}
 import module1.threads.ToyFuture
+import module2.implicits.{implicit_conversions, implicit_scopes}
 
 import java.util.concurrent.Executor
 import scala.concurrent.duration.DurationInt
@@ -79,8 +80,10 @@ object Main {
 //    future.printRunningTime(rates3)
 //      .foreach(println)
 
-    Await.result(future.f7, 6 seconds)
+//    Await.result(future.f7, 6 seconds)
    // Thread.sleep(4000)
+
+    implicit_scopes.result
 
   }
 }
