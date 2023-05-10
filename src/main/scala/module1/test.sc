@@ -1,9 +1,4 @@
-val i: Any = List("Hello")
+import scala.util.Try
 
-i match {
-  case v: Int => "int"
-  case v: String => "string"
-  case v: List[Int] => "list int"
-  case v: List[String] => "list str"
-  case _ => "???"
-}
+Try("_").map(_.toInt)
+

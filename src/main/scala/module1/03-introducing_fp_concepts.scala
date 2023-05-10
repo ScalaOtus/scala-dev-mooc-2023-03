@@ -3,7 +3,6 @@ package module1
 import java.util.UUID
 import scala.annotation.tailrec
 import java.time.Instant
-
 import scala.language.postfixOps
 
 
@@ -257,8 +256,11 @@ object hof{
     * Cons - непустой, содердит первый элемент (голову) и хвост (оставшийся список)
     */
 
-    trait List[+T]{
-
+    sealed trait List[+T]{
+     def cons[B >: T](el: B): List[B] = this match {
+       case List.::(head, tail) => List.::(el, this)
+       case List.Nil => List.::(el, List.Nil)
+     }
     }
 
     object List{
