@@ -45,7 +45,7 @@ class futures_sequence_test extends AnyFlatSpec {
     val fut2 = fut(2)
     val fut3 = fut(3)
 
-    assert(await(futures.task_futures_sequence.fullSequence[Int](List(fut1, fut2, fut3))) === (List(1, 2, 3), List()))
+    assert(await(module1.futures.task_futures_sequence.fullSequence[Int](List(fut1, fut2, fut3))) === (List(1, 2, 3), List()))
   }
 
   it should "process list of success and failures" in {
@@ -65,7 +65,7 @@ class futures_sequence_test extends AnyFlatSpec {
     val failed2 = Future.failed(ex2)
     val fut1 = fut(1)
 
-   assert(await(futures.task_futures_sequence.fullSequence[Int](List(fut1, failed1, failed2))) === (List(1), List(ex1, ex2)))
+   assert(await(module1.futures.task_futures_sequence.fullSequence[Int](List(fut1, failed1, failed2))) === (List(1), List(ex1, ex2)))
   }
 
   it should "process list of failures" in {
@@ -83,6 +83,6 @@ class futures_sequence_test extends AnyFlatSpec {
     val failed1 = Future.failed(ex1)
     val failed2 = Future.failed(ex2)
 
-   assert(await(futures.task_futures_sequence.fullSequence[Int](List(failed1, failed2))) === (List(), List(ex1, ex2)))
+   assert(await(module1.futures.task_futures_sequence.fullSequence[Int](List(failed1, failed2))) === (List(), List(ex1, ex2)))
   }
 }
