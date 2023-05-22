@@ -255,28 +255,6 @@ object validation{
           acc.updated(k, optCombine(v,acc.get(k)))
       }
 
-    // def combineAll[A](l:List[A]): A  = ???  можем ли реализовать такую свертку с semigroup?
-
-    //    def combineAll[A](l:List[A]): A  =
-    //      l.foldLeft(???)(_ |+| _) у нас нет ничего, что даст аккумулятор
-    //для этогоь есть моноид, он экстенлид полугпуппу
-
-    //    def combineAll[A](l:List[A]): A  =
-    //      l.foldLeft(???)(_ |+| _) у нас нет ничего, что даст аккумулятор
-
-    //   def combineAll[A](l:List[A]): Int  =
-    //       l.foldLeft(Monoid[A].empty)(Monoid[A].combine(_,_))
-
-    //  trait Monoid[A] extends Semigroup[A]{
-    //    def empty: A
-    //законы
-    //1. ассоциативность combine(x, combine(y, z)) == combine(combine(x,y), z)
-    //2. identity (left right)
-    //combine(x, empty) == x
-    //combine(empty, x) == x
-    // тоесть можем использовать безопасно foldleft foldright
-
-
     //    }
   }
   //functor
