@@ -77,3 +77,7 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test"
 
 // To learn more about multi-project builds, head over to the official sbt
 // documentation at http://www.scala-sbt.org/documentation.html
+
+//cats
+libraryDependencies += "org.typelevel" %% "cats-core" % "2.1.0"
+libraryDependencies += "org.typelevel" %% "cats-effect" % "3.4.5"
