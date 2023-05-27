@@ -7,11 +7,13 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
 import scala.util.Try
+import module3.functional_effects.functionalProgram.executableEncoding
+import module3.functional_effects.functionalProgram.declarativeEncoding
 
 object Main {
 
   def main(args: Array[String]): Unit = {
-    println("Hello world " + Thread.currentThread().getName)
+//    println("Hello world " + Thread.currentThread().getName)
 
 //    val t1 = new Thread{
 //      override def run(): Unit = {
@@ -60,22 +62,22 @@ object Main {
 
 //    Try("").map(_.toInt).foreach(println)
 
-    import scala.concurrent.ExecutionContext.Implicits.global
-
-
-    def rates2: Future[Int] = {
-      val v1 = future.getRatesLocation1
-      val v2 = future.getRatesLocation2
-      for {
-        r1 <- v1
-        r2 <- v2
-      } yield (r1 + r2)
-    }
-
-
-    def rates3 =
-      future.getRatesLocation1
-        .zip(future.getRatesLocation2)
+//    import scala.concurrent.ExecutionContext.Implicits.global
+//
+//
+//    def rates2: Future[Int] = {
+//      val v1 = future.getRatesLocation1
+//      val v2 = future.getRatesLocation2
+//      for {
+//        r1 <- v1
+//        r2 <- v2
+//      } yield (r1 + r2)
+//    }
+//
+//
+//    def rates3 =
+//      future.getRatesLocation1
+//        .zip(future.getRatesLocation2)
 
 //    future.printRunningTime(rates3)
 //      .foreach(println)
@@ -83,7 +85,9 @@ object Main {
 //    Await.result(future.f7, 6 seconds)
    // Thread.sleep(4000)
 
-    implicit_scopes.result
+ //   implicit_scopes.result
+
+    val r = declarativeEncoding.interpret(declarativeEncoding.p1)
 
   }
 }

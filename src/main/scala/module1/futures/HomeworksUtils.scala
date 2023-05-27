@@ -13,6 +13,7 @@ object HomeworksUtils {
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   implicit class TaskSyntax(private val cs: StringContext) extends AnyVal {
+
     def task(refs: Any*): TaskDef = _ => {
       val message = cs.s(refs: _*).stripMargin
       throw TaskNotDone(message)
