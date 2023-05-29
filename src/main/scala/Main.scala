@@ -9,6 +9,8 @@ import scala.language.postfixOps
 import scala.util.Try
 import module3.functional_effects.functionalProgram.executableEncoding
 import module3.functional_effects.functionalProgram.declarativeEncoding
+import module3.{toyModel, zioConstructors}
+import zio.{ExitCode, URIO}
 
 object Main {
 
@@ -87,7 +89,12 @@ object Main {
 
  //   implicit_scopes.result
 
-    val r = declarativeEncoding.interpret(declarativeEncoding.p1)
+ //   val r = declarativeEncoding.interpret(declarativeEncoding.p1)
 
+    zio.Runtime.default.unsafeRun(zioConstructors.z11)
   }
+}
+
+object Main2 extends zio.App{
+  override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = zioConstructors.z11.exitCode
 }

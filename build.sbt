@@ -81,3 +81,4 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test"
 //cats
 libraryDependencies += "org.typelevel" %% "cats-core" % "2.1.0"
 libraryDependencies += "org.typelevel" %% "cats-effect" % "3.4.5"
+libraryDependencies ++= Dependencies.zio
