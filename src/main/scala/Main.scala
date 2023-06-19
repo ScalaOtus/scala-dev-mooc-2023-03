@@ -92,8 +92,14 @@ object Main {
  //   val r = declarativeEncoding.interpret(declarativeEncoding.p1)
 
   //  zio.Runtime.default.unsafeRun(zioConstructors.z11)
-    zio.Runtime.default.unsafeRun(zioConcurrency
-      .printEffectRunningTime(zioConcurrency.g1))
+
+
+    val eff = ZIO.effect{
+      println("1")
+
+    }.flatMap(_ => ZIO.effect(println("2")))
+
+    zio.Runtime.default.unsafeRun(eff)
 
   //  Thread.sleep(2000)
  //   println(zioRecursion.factorial(10000))
