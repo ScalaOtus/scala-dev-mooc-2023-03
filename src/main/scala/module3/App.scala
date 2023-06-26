@@ -24,9 +24,8 @@ object ZioApp extends zio.App{
 
 
   lazy val env0: ZLayer[Any, Nothing, UserService with EmailService] = (UserDAO.live >>> UserService.live ++ EmailService.live)
-  lazy val env01: ZLayer[Any, Nothing, UserService] = UserDAO.doomy >>> UserService.doomy
 
-  lazy val env: ZLayer[Any, Nothing, UserService with UserService with EmailService] = env0 ++ env01
+  lazy val env: ZLayer[Any, Nothing, UserService with UserService with EmailService] = env0
 
   lazy val app: ZIO[UserService with EmailService with Console, Throwable, Unit] = UserService.notifyUser(UserID(10))
 

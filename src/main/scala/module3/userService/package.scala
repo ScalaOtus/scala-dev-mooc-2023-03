@@ -37,8 +37,6 @@ package object userService {
       val live: ZLayer[UserDAO, Nothing, UserService] =
         ZLayer.fromService[UserDAO.Service, UserService.Service](dao => new ServiceImpl(dao))
 
-      val doomy: ZLayer[UserDAO, Nothing, UserService] = ???
-
     }
 
 
