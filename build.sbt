@@ -15,7 +15,14 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "2.1.0"
 libraryDependencies += "org.typelevel" %% "cats-effect" % "3.4.5"
 libraryDependencies ++= Dependencies.zio
 libraryDependencies ++= Dependencies.zioConfig
+libraryDependencies ++= Dependencies.quill
+libraryDependencies ++= Dependencies.testContainers
 libraryDependencies += Dependencies.scalaTest
+libraryDependencies ++= Dependencies.circe
+libraryDependencies += Dependencies.liquibase
+libraryDependencies += Dependencies.zioHttp
+libraryDependencies += Dependencies.logback
+
 scalacOptions += "-Ymacro-annotations"
 
 testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
