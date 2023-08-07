@@ -4,7 +4,7 @@ import cats.effect.{IO, IOApp}
 import http4smiddleware.Restfull1.{addresponseHeaderMiddleware, routerSessionAuthClear, serviceOne, serviceTwo}
 import http4sstreamingjson.CirceJson.User
 import http4sstreamingjson.HttpClient.{builder, request}
-//import io.circe.derivation.deriveDecoder
+import io.circe.derivation.deriveDecoder
 import io.circe.{Decoder, Json, ParsingFailure}
 import io.circe.parser.parse
 import org.http4s.Method.POST
@@ -37,20 +37,20 @@ object CirceJson extends IOApp.Simple{
 
   //1 dec
 
- /* implicit  val decoderUser: Decoder[User] = Decoder.instance(
-    cur =>
-      for {
-        name <- cur.downField("name").as[String]
-        email <- cur.downField("email").as[Option[String]]
-      } yield User(name, email)
-  )*/
+  /* implicit  val decoderUser: Decoder[User] = Decoder.instance(
+     cur =>
+       for {
+         name <- cur.downField("name").as[String]
+         email <- cur.downField("email").as[Option[String]]
+       } yield User(name, email)
+   )*/
 
   //2 semiauto
- // implicit val decoderUser: Decoder[User] = deriveDecoder
- // implicit val decoderPermissions: Decoder[Permissions] = deriveDecoder
+  implicit val decoderUser: Decoder[User] = deriveDecoder
+  implicit val decoderPermissions: Decoder[Permissions] = deriveDecoder
 
   val example = """{"name" : "xxxx", "email": "musterman@sdasd.de"}"""
-//  val json: Either[ParsingFailure, Json] = parse(example)
+  //  val json: Either[ParsingFailure, Json] = parse(example)
   def run: IO[Unit] = IO.println{
     val s = for {
       json <- parse(example)
@@ -58,19 +58,19 @@ object CirceJson extends IOApp.Simple{
     } yield user
 
     val s1 = ""
- }
+  }
 }
 
 
-//import org.http4s.circe.CirceEntityEncoder._
-//import org.http4s.circe.CirceEntityDecoder._
-/*
+import org.http4s.circe.CirceEntityEncoder._
+import org.http4s.circe.CirceEntityDecoder._
+
 object  restfulldesc{
   def publicRoutes: HttpRoutes[IO] = HttpRoutes.of {
     case r @ POST -> Root/"echo" =>
       for {
-       u <- r.as[CirceJson.User]
-       _ <- IO.println(u)
+        u <- r.as[CirceJson.User]
+        _ <- IO.println(u)
         response <- Ok(u)
       } yield response
   }
@@ -118,4 +118,4 @@ object MainCircePars extends  IOApp.Simple {
 
   }
 
-}*/
+}
