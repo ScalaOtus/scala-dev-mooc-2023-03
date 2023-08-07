@@ -4,7 +4,7 @@ import cats.effect.{IO, IOApp}
 import http4smiddleware.Restfull1.{addresponseHeaderMiddleware, routerSessionAuthClear, serviceOne, serviceTwo}
 import http4sstreamingjson.CirceJson.User
 import http4sstreamingjson.HttpClient.{builder, request}
-import io.circe.derivation.deriveDecoder
+//import io.circe.derivation.deriveDecoder
 import io.circe.{Decoder, Json, ParsingFailure}
 import io.circe.parser.parse
 import org.http4s.Method.POST
@@ -46,8 +46,8 @@ object CirceJson extends IOApp.Simple{
   )*/
 
   //2 semiauto
-  implicit val decoderUser: Decoder[User] = deriveDecoder
-  implicit val decoderPermissions: Decoder[Permissions] = deriveDecoder
+ // implicit val decoderUser: Decoder[User] = deriveDecoder
+ // implicit val decoderPermissions: Decoder[Permissions] = deriveDecoder
 
   val example = """{"name" : "xxxx", "email": "musterman@sdasd.de"}"""
 //  val json: Either[ParsingFailure, Json] = parse(example)
@@ -62,9 +62,9 @@ object CirceJson extends IOApp.Simple{
 }
 
 
-import org.http4s.circe.CirceEntityEncoder._
-import org.http4s.circe.CirceEntityDecoder._
-
+//import org.http4s.circe.CirceEntityEncoder._
+//import org.http4s.circe.CirceEntityDecoder._
+/*
 object  restfulldesc{
   def publicRoutes: HttpRoutes[IO] = HttpRoutes.of {
     case r @ POST -> Root/"echo" =>
@@ -118,4 +118,4 @@ object MainCircePars extends  IOApp.Simple {
 
   }
 
-}
+}*/

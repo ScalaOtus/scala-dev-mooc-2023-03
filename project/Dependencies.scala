@@ -1,3 +1,4 @@
+import sbt.Keys.libraryDependencies
 import sbt._
 
 object Dependencies {
@@ -10,7 +11,7 @@ object Dependencies {
   lazy val PostgresVersion = "42.3.1"
   lazy val LogbackVersion = "1.2.3"
   lazy val ZIOHttpVersion = "1.0.0.0-RC27"
-  lazy val CirceVersion = "0.14.2"
+  lazy val CirceVersion = "0.14.1"
 
 
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.2.11"
@@ -40,6 +41,32 @@ object Dependencies {
     "com.dimafeng" %% "testcontainers-scala-scalatest" % "0.39.12"  % Test
   )
 
+  lazy val akkaVersion = "2.8.3"
+  lazy val leveldbVersion = "0.7"
+  lazy val leveldbjniVersion = "1.8"
+  lazy val akkaContainers = Seq(
+    // Use Coda Hale Metrics and Akka instrumentation
+    "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
+    "com.typesafe.akka" %% "akka-stream" % akkaVersion,
+    "com.typesafe.akka" %% "akka-persistence-typed" % akkaVersion,
+    "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
+    "com.typesafe.akka" %% "akka-cluster-sharding-typed" % akkaVersion,
+    "com.typesafe.akka" %% "akka-cluster-typed" % akkaVersion,
+    "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
+    "com.typesafe.akka" %% "akka-remote" % akkaVersion,
+    "io.aeron" % "aeron-driver" % "1.40.0",
+    "io.aeron" % "aeron-client" % "1.40.0",
+
+    "org.iq80.leveldb" % "leveldb" % leveldbVersion,
+    "org.fusesource.leveldbjni" % "leveldbjni-all" % leveldbjniVersion,
+
+    "ch.qos.logback" % "logback-classic" % "1.2.3",
+    "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion % Test,
+    "org.scalatest" %% "scalatest" % "3.1.0" % Test
+  )
+
+
   lazy val postgres = "org.postgresql" % "postgresql" % PostgresVersion
 
   lazy val logback = "ch.qos.logback"  %  "logback-classic" % LogbackVersion
@@ -47,9 +74,14 @@ object Dependencies {
   lazy val zioHttp = "io.d11" %% "zhttp" % ZIOHttpVersion
 
   lazy val circe: Seq[ModuleID] = Seq(
-    "io.circe" %% "circe-core" % CirceVersion,
-    "io.circe" %% "circe-parser" % CirceVersion,
-    "io.circe" %% "circe-generic" % CirceVersion,
-    "io.circe" %% "circe-literal" % CirceVersion
-  )
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+  ).map(_ % CirceVersion)
+
+
+
+
+
+
 }
