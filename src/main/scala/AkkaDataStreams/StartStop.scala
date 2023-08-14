@@ -38,7 +38,7 @@ object Parent{
             case Some(childRef) =>
               ctx.stop(childRef)
               Behaviors.same
-              //withChildren(childs - name) //todo, potential error
+             // withChildren(childs - name)
             case None => Behaviors.same
           }
 
