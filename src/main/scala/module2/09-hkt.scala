@@ -12,7 +12,15 @@ object higher_kinded_types{
     a.flatMap{ a => b.map((a, _))}
 
 
-  def tuplef[F[_], A, B](fa: F[A], fb: F[B]): F[(A, B)] = ???
+  trait TheFunctor[F[_]] {
+    def map[A, B](fa: F[A])(f: A => B): F[B]
+
+    def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
+  }
+
+  def tuplef[F[_], A, B](fa: F[A], fb: F[B])(implicit functor: TheFunctor[F]): F[(A, B)] = {
+    functor.flatMap(fa)(a => functor.map(fb)((a, _)))
+  }
 
 
   trait Bindable[F[_], A] {
@@ -38,7 +46,16 @@ object higher_kinded_types{
 
   lazy val r3 = println(tupleBindable(optBindable(optA), optBindable(optB)))
 
+  implicit val functOpt: TheFunctor[Option] = new TheFunctor[Option] {
+    override def map[A, B](fa: Option[A])(f: A => B): Option[B] = fa.map(f)
+    override def flatMap[A, B](fa: Option[A])(f: A => Option[B]): Option[B] = fa.flatMap(f)
+  }
+
+  implicit val functList: TheFunctor[List] = new TheFunctor[List] {
+    override def map[A, B](fa: List[A])(f: A => B): List[B] = fa.map(f)
+    override def flatMap[A, B](fa: List[A])(f: A => List[B]): List[B] = fa.flatMap(f)
+  }
+
   lazy val r1 = println(tuplef(optA, optB))
   lazy val r2 = println(tuplef(list1, list2))
-
 }
