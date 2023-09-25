@@ -19,23 +19,31 @@ import Wallet.{BalanceTooLow, WalletError}
 object WalletTransferApp extends IOApp.Simple {
 
   // функция, которую мы тестируем. Здесь менять ничего не нужно :)
-  def transfer[F[_]: Monad](a: Wallet[F],
-                            b: Wallet[F],
-                            amount: BigDecimal): F[Unit] =
+  def transfer[F[_] : Monad](a: Wallet[F],
+                             b: Wallet[F],
+                             amount: BigDecimal): F[Unit] =
     a.withdraw(amount).flatMap {
       case Left(BalanceTooLow) => a.topup(amount)
-      case Right(_)            => b.topup(amount)
+      case Right(_) => b.topup(amount)
     }
 
   // todo: реализовать интерпретатор (не забывая про ошибку списания при недостаточных средствах)
   final class InMemWallet[F[_]](ref: Ref[F, BigDecimal]) extends Wallet[F] {
-    def balance: F[BigDecimal] = ???
-    def topup(amount: BigDecimal): F[Unit] = ???
-    def withdraw(amount: BigDecimal): F[Either[WalletError, Unit]] = ???
+    def balance: F[BigDecimal] = ref.get
+
+    def topup(amount: BigDecimal): F[Unit] = ref.update(curr => curr + amount)
+
+    def withdraw(amount: BigDecimal): F[Either[WalletError, Unit]] = {
+      val r = Ref[IO].of(amount)
+      ref.modify(cur => (cur - amount, Either.cond(cur > amount, (), BalanceTooLow)))
+    }
   }
 
   // todo: реализовать конструктор. Снова хитрая сигнатура, потому что создание Ref - это побочный эффект
-  def wallet(balance: BigDecimal): IO[Wallet[IO]] = ???
+  def wallet(balance: BigDecimal): IO[Wallet[IO]] = for {
+    ref <- Ref[IO].of(balance)
+    w <- IO.pure(new InMemWallet[IO](ref))
+  } yield w
 
   // а это тест, который выполняет перевод с одного кошелька на другой и выводит балансы после операции. Тоже менять не нужно
   def testTransfer: IO[(BigDecimal, BigDecimal)] =
